@@ -2,11 +2,11 @@ import { Router } from 'express';
 
 const router = Router();
 
-// @method  POST api/users/
-// @desc    Register a new user
-// @access  Private
+// @method  POST
+// @desc    Login user
+// @access  Public
 router.post('/', (req, res) => {
-  res.send('Hey');
+  res.send('Post auth');
 });
 
 export default router;
