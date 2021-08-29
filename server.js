@@ -1,12 +1,16 @@
 import express from 'express';
+import connectDB from './config/db';
 import UserRouter from './routes/user';
 import AuthRouter from './routes/auth';
 import AppRouter from './routes/applications';
 const app = express();
 
 // Connect to database
+connectDB();
 
 // Init Middleware
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => {
   res.send('Home Page');
 });
