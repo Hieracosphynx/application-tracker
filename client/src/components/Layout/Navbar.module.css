@@ -30,3 +30,13 @@
   color: rgb(253, 234, 234);
   font-weight: bold;
 }
+
+.header button {
+  background-color: transparent;
+  border: 0px;
+  font-family: inherit;
+  font-size: inherit;
+  color: rgb(253, 234, 234);
+  font-weight: bold;
+  cursor: pointer;
+}

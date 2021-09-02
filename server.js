@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import connectDB from './config/db';
 import UserRouter from './routes/user';
 import AuthRouter from './routes/auth';
@@ -7,6 +8,9 @@ const app = express();
 
 // Connect to database
 connectDB();
+
+// Cors policy
+app.use(cors());
 
 // Init Middleware
 app.use(express.json({ extended: false }));
