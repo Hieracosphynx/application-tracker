@@ -1,23 +1,40 @@
-import { useContext } from 'react';
+import { useEffect, useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { fetchDataHandler } from './redux/application-actions';
 import AuthContext from './context/auth-context';
-import Home from './pages/Home';
+import Application from './components/Application/Application';
 import Login from './components/Authentication/Login';
 import Layout from './components/Layout/Layout';
+import Home from './pages/Home';
 
 const App = () => {
+  const dispatch = useDispatch();
   const authCtx = useContext(AuthContext);
-  const { isLoggedIn } = authCtx;
+  const { isLoggedIn, token } = authCtx;
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchDataHandler(token));
+    }
+  }, [isLoggedIn, token, dispatch]);
+
   return (
     <Layout>
       <Switch>
         <Route path='/' exact>
           <Home />
         </Route>
-        <Route path='/login'>
-          <Login />
-        </Route>
-        {isLoggedIn && <Route path='/applications'>Applications</Route>}
+        {!isLoggedIn && (
+          <Route path='/login'>
+            <Login />
+          </Route>
+        )}
+        {isLoggedIn && (
+          <Route path='/applications'>
+            <Application />
+          </Route>
+        )}
         <Route path='*'>
           <Redirect to='/' />
         </Route>

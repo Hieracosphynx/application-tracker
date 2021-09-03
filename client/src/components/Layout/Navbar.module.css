@@ -40,3 +40,13 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.nav a:hover,
+.nav a:active,
+.nav a.active {
+  color: black;
+}
+
+.nav button:hover {
+  color: black;
+}

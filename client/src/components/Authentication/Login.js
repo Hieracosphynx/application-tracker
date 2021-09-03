@@ -1,8 +1,11 @@
 import { useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
+import Card from '../UI/Card';
 import classes from './Login.module.css';
 
-const Auth = () => {
+const Login = () => {
+  const history = useHistory();
   const authCtx = useContext(AuthContext);
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
@@ -13,10 +16,11 @@ const Auth = () => {
     const enteredPassword = passwordInputRef.current.value;
 
     authCtx.login(enteredUsername, enteredPassword);
+    history.push('/');
   };
 
   return (
-    <section className={classes.container}>
+    <Card>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor='username'>Username</label>
@@ -30,8 +34,8 @@ const Auth = () => {
           <button type='submit'>Login</button>
         </div>
       </form>
-    </section>
+    </Card>
   );
 };
 
-export default Auth;
+export default Login;
