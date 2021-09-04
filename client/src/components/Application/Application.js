@@ -4,7 +4,6 @@ import classes from './Application.module.css';
 
 const Application = () => {
   const applications = useSelector((state) => state.application.applications);
-  console.log(applications);
   return (
     <Card>
       <table className={classes.applications}>
