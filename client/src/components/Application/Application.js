@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeaders: {
     fontWeight: 'bold',
+    color: 'white',
+  },
+  tableCell: {
     color: 'white',
   },
   paper: {
@@ -83,7 +87,18 @@ const Application = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{applicationData}</TableBody>
+          <TableBody>
+            {applicationData}
+            <TableRow>
+              <TableCell rowSpan={1} />
+              <TableCell colSpan={1} />
+              <TableCell className={classes.tableCell} align='right'>
+                <Button type='button' color='inherit'>
+                  Add
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </TableContainer>
     </Container>
