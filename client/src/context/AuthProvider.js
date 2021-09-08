@@ -27,6 +27,23 @@ const AuthProvider = (props) => {
     }
   };
 
+  const registerHandler = async (username, password) => {
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: 'http://localhost:5000/api/users',
+        data: {
+          username,
+          password,
+        },
+      });
+
+      return response;
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const logoutHandler = () => {
     localStorage.removeItem('token');
     setToken(null);
@@ -37,6 +54,7 @@ const AuthProvider = (props) => {
     token: token,
     isLoggedIn: isLoggedIn,
     login: loginHandler,
+    register: registerHandler,
     logout: logoutHandler,
   };
 

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import ApplicationList from './ApplicationList';
 import { useSelector } from 'react-redux';
 import Container from '@material-ui/core/Container';
 
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   table: {
     width: '100%',
     minWidth: '0px',
+    backgroundColor: '#4B4B4B',
   },
   tableContainer: {
     width: '100%',
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  tableHeaders: {
+    fontWeight: 'bold',
+    color: 'white',
   },
   paper: {
     backgroundColor: 'grey',
@@ -37,30 +42,48 @@ const Application = () => {
   const classes = useStyles();
   const applications = useSelector((state) => state.application.applications);
 
+  let applicationData;
+
+  if (applications.length <= 0) {
+    applicationData = (
+      <TableRow>
+        <TableCell>No data found</TableCell>
+      </TableRow>
+    );
+  } else {
+    applicationData = applications.map((application) => {
+      const { id, company, source, type } = application;
+      return (
+        <TableRow key={application._id}>
+          <ApplicationList
+            id={id}
+            company={company}
+            source={source}
+            type={type}
+          />
+        </TableRow>
+      );
+    });
+  }
+
   return (
     <Container className={classes.root}>
       <TableContainer component={Paper} className={classes.tableContainer}>
         <Table className={classes.table}>
           <TableHead>
-            <TableRow>
-              <TableCell>Company</TableCell>
-              <TableCell align='center'>Source</TableCell>
-              <TableCell align='center'>Type</TableCell>
+            <TableRow color='white'>
+              <TableCell className={classes.tableHeaders} align='left'>
+                Company
+              </TableCell>
+              <TableCell className={classes.tableHeaders} align='center'>
+                Source
+              </TableCell>
+              <TableCell className={classes.tableHeaders} align='center'>
+                Type
+              </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {applications.map((application) => {
-              return (
-                <TableRow key={application._id}>
-                  <TableCell component='th' scope='row'>
-                    {application.company}
-                  </TableCell>
-                  <TableCell align='center'>{application.source}</TableCell>
-                  <TableCell align='center'>{application.type}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <TableBody>{applicationData}</TableBody>
         </Table>
       </TableContainer>
     </Container>

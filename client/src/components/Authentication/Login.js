@@ -1,4 +1,4 @@
-import { useRef, useContext } from 'react';
+import { Fragment, useState, useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
 import ContainerHelper from '../UI/Container';
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: '30%',
     marginTop: '15px',
+    marginBottom: '0',
     backgroundColor: 'rgb(63, 81, 181)',
     color: 'white',
   },
@@ -41,14 +42,25 @@ const Login = () => {
   const authCtx = useContext(AuthContext);
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
+  const [isRegister, setIsRegister] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    authCtx.login(enteredUsername, enteredPassword);
+    if (!isRegister) {
+      authCtx.login(enteredUsername, enteredPassword);
+    } else {
+      authCtx.register(enteredUsername, enteredPassword);
+    }
     history.push('/');
+    setIsRegister(false);
+  };
+
+  const registerHandler = (e) => {
+    e.preventDefault();
+    setIsRegister((register) => !register);
   };
 
   return (
@@ -78,9 +90,26 @@ const Login = () => {
               inputRef={passwordInputRef}
             />
           </FormControl>
-          <Button type='submit' className={classes.button}>
-            Login
-          </Button>
+          {!isRegister && (
+            <Fragment>
+              <Button type='submit' className={classes.button}>
+                Login
+              </Button>
+              <Button type='button' onClick={registerHandler}>
+                Register
+              </Button>
+            </Fragment>
+          )}
+          {isRegister && (
+            <Fragment>
+              <Button type='submit' className={classes.button}>
+                Register
+              </Button>
+              <Button type='button' onClick={registerHandler}>
+                Login
+              </Button>
+            </Fragment>
+          )}
         </Card>
       </form>
     </ContainerHelper>
@@ -88,34 +117,3 @@ const Login = () => {
 };
 
 export default Login;
-// <Container className={classes.root}>
-//   <form onSubmit={submitHandler}>
-//     <Card className={classes.formContainer}>
-//       <FormControl className={classes.formControl}>
-//         <InputLabel className={classes.inputLabel} htmlFor='username'>
-//           Username
-//         </InputLabel>
-//         <Input
-//           className={classes.input}
-//           name='username'
-//           type='text'
-//           inputRef={usernameInputRef}
-//         />
-//       </FormControl>
-//       <FormControl className={classes.formControl}>
-//         <InputLabel className={classes.inputLabel} htmlFor='password'>
-//           Password
-//         </InputLabel>
-//         <Input
-//           className={classes.input}
-//           name='password'
-//           type='password'
-//           inputRef={passwordInputRef}
-//         />
-//       </FormControl>
-//       <Button type='submit' className={classes.button}>
-//         Login
-//       </Button>
-//     </Card>
-//   </form>
-// </Container>

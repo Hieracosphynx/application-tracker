@@ -1,9 +1,9 @@
 import { useContext, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
-import ButtonHelper from '../UI/ButtonHelper';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -15,9 +15,31 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(0.5),
+    '&.active': {
+      fontWeight: 'bold',
+      fontSize: '1rem',
+      color: 'white',
+    },
+    '&:hover': {
+      fontWeight: 'bold',
+      fontSize: '1rem',
+      color: '#B5A33F',
+    },
   },
   title: {
     flexGrow: 1,
+  },
+  button: {
+    '&.active': {
+      fontWeight: 'bold',
+      fontSize: '1rem',
+      color: 'white',
+    },
+    '&:hover': {
+      fontWeight: 'bold',
+      fontSize: '1rem',
+      color: '#B5A33F',
+    },
   },
 }));
 
@@ -27,24 +49,30 @@ const Navbar = () => {
   const { isLoggedIn, logout } = authCtx;
 
   let authContent = (
-    <ButtonHelper component={NavLink} to='/login'>
+    <Button
+      color='inherit'
+      component={NavLink}
+      to='/login'
+      className={classes.menuButton}
+    >
       Login
-    </ButtonHelper>
+    </Button>
   );
 
   if (isLoggedIn) {
     authContent = (
       <Fragment>
-        <ButtonHelper
-          className={classes.button}
+        <Button
+          color='inherit'
+          className={classes.menuButton}
           component={NavLink}
           to='/applications'
         >
           Applications
-        </ButtonHelper>
-        <ButtonHelper className={classes.button} onClick={logout}>
+        </Button>
+        <Button color='inherit' className={classes.menuButton} onClick={logout}>
           Logout
-        </ButtonHelper>
+        </Button>
       </Fragment>
     );
   }
@@ -63,9 +91,15 @@ const Navbar = () => {
           <Typography variant='h5' className={classes.title}>
             Application Tracker
           </Typography>
-          <ButtonHelper component={NavLink} to={'/'}>
+          <Button
+            color='inherit'
+            className={classes.menuButton}
+            component={NavLink}
+            to={'/'}
+            exact
+          >
             Home
-          </ButtonHelper>
+          </Button>
           {authContent}
         </Toolbar>
       </AppBar>
