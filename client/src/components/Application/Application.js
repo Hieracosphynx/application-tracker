@@ -1,7 +1,9 @@
-import ApplicationList from './ApplicationList';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Container from '@material-ui/core/Container';
+import ApplicationList from './ApplicationList';
+import NewApplicationForm from './NewApplicationForm';
 
+import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
@@ -45,8 +47,15 @@ const useStyles = makeStyles((theme) => ({
 const Application = () => {
   const classes = useStyles();
   const applications = useSelector((state) => state.application.applications);
+  const [addApplication, setAddApplication] = useState(false);
 
   let applicationData;
+
+  const addFormHandler = (e) => {
+    e.preventDefault();
+
+    setAddApplication(true);
+  };
 
   if (applications.length <= 0) {
     applicationData = (
@@ -89,11 +98,16 @@ const Application = () => {
           </TableHead>
           <TableBody>
             {applicationData}
+            {addApplication && (
+              <TableRow>
+                <NewApplicationForm />
+              </TableRow>
+            )}
             <TableRow>
               <TableCell rowSpan={1} />
               <TableCell colSpan={1} />
               <TableCell className={classes.tableCell} align='right'>
-                <Button type='button' color='inherit'>
+                <Button type='button' color='inherit' onClick={addFormHandler}>
                   Add
                 </Button>
               </TableCell>
